@@ -16,7 +16,7 @@ import com.sun.jersey.api.client.WebResource;
 public class GetIPGeoLocationFromAPI {
 	private static String datasource = "jdbc:mysql://localhost/ipgeo?user=root";
 	private final static String url = "https://api.ipgeolocation.io/ipgeo?apiKey={apiKey}&ip={ip}";
-	private final static String apiKey = "bd0cabb9afb6416c8044080d3ac13211";
+	private final static String apiKey = "bd2275f522584b8686e9d800f193bf59";
 	private static Gson gson = new Gson();
 
 	public static void main(String[] args) {
@@ -30,9 +30,12 @@ public class GetIPGeoLocationFromAPI {
 					if (ip.indexOf(":") > -1)
 						ipType = "IPv6";
 					IPGeoLocationResponse res = getIPGeoLocation(ip);
-					insertIntoDB(appendData2DB(res, ipType));
+					if (res.getMessage() != null && res.getMessage().length() > 0)
+						System.out.println(res.getMessage());
+					else
+						insertIntoDB(appendData2DB(res, ipType));
 				} else {
-					System.out.println("Please put currect ip Address, ex:172.16.168.1");		
+					System.out.println("Please put currect ip Address, ex:172.16.168.1");
 				}
 			}
 		} else {
@@ -51,8 +54,7 @@ public class GetIPGeoLocationFromAPI {
 			String json = response.getEntity(String.class);
 			res = gson.fromJson(json, IPGeoLocationResponse.class);
 			res.setJson(json);
-			System.out.println(json);
-			System.out.println(res.getCountry_code2() + "," + res.getCountry_name());
+			System.out.println(json);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

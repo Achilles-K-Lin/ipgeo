@@ -27,6 +27,7 @@ public class IPGeoLocationResponse {
 	private Currency currency;
 	private TimeZone time_zone;
 	private String json;
+	private String message;
 
 	public String getIp() {
 		return ip;
@@ -226,6 +227,14 @@ public class IPGeoLocationResponse {
 
 	public void setJson(String json) {
 		this.json = json;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }
